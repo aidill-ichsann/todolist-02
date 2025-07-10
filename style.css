@@ -18,6 +18,7 @@ body {
   background-color: #f9f9f9;
 }
 .container {
+  position: relative;
   font-family: "Fredoka", sans-serif;
   background-color: var(--latar-list);
   width: 75%;
@@ -103,6 +104,10 @@ main {
   font-size: 18px;
   font-weight: 600;
 }
+.judul.done{
+  text-decoration: line-through;
+  text-decoration-thickness:2px ;
+}
 .jam {
   border-radius: 10px;
   width: 10%;
@@ -118,50 +123,56 @@ footer {
   align-items: center;
 }
 .btn-add {
+  border-radius: 50%;
   width: 50px;
   height: 50px;
-  background-color: #588157;
-  border-radius: 50%;
   display: flex;
+  margin: auto;
   justify-content: center;
   align-items: center;
-  color: white;
-  font-size: 24px;
+  background-color: #588157;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+footer i {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
 }
 
-.form-input {
+.form {
   display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  padding: 20px;
-  background: white;
+  width: 30%;
+  height: max-content;
+  padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 200px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 0 auto;
 }
-
-.form-input input {
+.form.show {
   display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
-
+input {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin: 5px 0;
+}
 .btn-save {
-  text-align: center;
-  background-color: hotpink;
-  padding: 10px;
-  color: white;
+  margin-top: 10px;
+  padding: 5px;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  background-color: #588157;
 }
 
 /* responsive */
@@ -170,13 +181,14 @@ footer {
   .container {
     width: 100%;
   }
-  .item{
+  .item {
     width: 80%;
   }
-  .jam{
+  .jam {
     width: 20%;
   }
-  .form-input{
-    width: 200px;
+  .form{
+    width: 90%;
+    top: 300px;
   }
 }
