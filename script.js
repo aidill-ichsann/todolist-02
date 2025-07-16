@@ -4,6 +4,53 @@ btnAdd.addEventListener("click", () => {
   formInput.classList.toggle("show");
 });
 
+// jam
+function updateJam() {
+  const time = document.querySelector(".time");
+  const jam = new Date();
+
+  let hh = jam.getHours().toString().padStart(2, "0");
+  let mm = jam.getMinutes().toString().padStart(2, "0");
+
+  let hariIndex = jam.getDay();
+  let tanggal = jam.getDate();
+  let bulanIndex = jam.getMonth();
+  let tahun = jam.getFullYear();
+
+  const namaHari = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+  const namaBulan = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+  let hariIni = namaHari[hariIndex]
+  let bulanIni = namaBulan[bulanIndex]
+
+  const date = document.querySelector('.date')
+  date.textContent = `${hariIni} ${tanggal} ${bulanIni} ${tahun}`
+
+  time.textContent = `${hh}:${mm}`;
+}
+setInterval(updateJam, 1000);
+updateJam();
+
 // function bikin list
 const bikinList = (inputList, inputJam) => {
   // untuk nama list
@@ -31,24 +78,24 @@ const bikinList = (inputList, inputJam) => {
   const hapus = document.createElement("i");
   hapus.classList.add("bx", "bx-backspace");
 
-  // bikin titik tiga 
-  const menuMobile = document.createElement('div')
-  menuMobile.classList.add('menu-mobile')
-  const titik = document.createElement('span')
-  titik.classList.add('titik-tiga')
-  const icontitik = document.createElement('i')
-  icontitik.classList.add('bx','bx-dots-vertical-rounded')
-  const opsi = document.createElement('div')
-  opsi.classList.add('opsi-menu')
-  const opsiEdit = document.createElement('span')
-  opsiEdit.classList.add('opsi','edit')
-  const opsiHapus = document.createElement('span')
-  opsiHapus.classList.add('opsi','hapus')
-  titik.appendChild(icontitik)
-  opsi.appendChild(opsiEdit)
-  opsi.appendChild(opsiHapus)
-  menuMobile.appendChild(titik)
-  menuMobile.appendChild(opsi)
+  // bikin titik tiga
+  const menuMobile = document.createElement("div");
+  menuMobile.classList.add("menu-mobile");
+  const titik = document.createElement("span");
+  titik.classList.add("titik-tiga");
+  const icontitik = document.createElement("i");
+  icontitik.classList.add("bx", "bx-dots-vertical-rounded");
+  const opsi = document.createElement("div");
+  opsi.classList.add("opsi-menu");
+  const opsiEdit = document.createElement("span");
+  opsiEdit.classList.add("opsi", "edit");
+  const opsiHapus = document.createElement("span");
+  opsiHapus.classList.add("opsi", "hapus");
+  titik.appendChild(icontitik);
+  opsi.appendChild(opsiEdit);
+  opsi.appendChild(opsiHapus);
+  menuMobile.appendChild(titik);
+  menuMobile.appendChild(opsi);
 
   // untuk jam
   const jam = document.createElement("div");
@@ -68,7 +115,7 @@ const bikinList = (inputList, inputJam) => {
   icon.appendChild(edit);
   icon.appendChild(hapus);
   item.appendChild(icon);
-  item.appendChild(menuMobile)
+  item.appendChild(menuMobile);
 };
 
 const btnSave = document
