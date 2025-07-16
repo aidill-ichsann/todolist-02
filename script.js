@@ -23,6 +23,33 @@ const bikinList = (inputList, inputJam) => {
   spann.classList.add("judul");
   spann.textContent = inputList;
 
+  // bikin icon
+  const icon = document.createElement("div");
+  icon.classList.add("icon");
+  const edit = document.createElement("i");
+  edit.classList.add("bx", "bx-pencil");
+  const hapus = document.createElement("i");
+  hapus.classList.add("bx", "bx-backspace");
+
+  // bikin titik tiga 
+  const menuMobile = document.createElement('div')
+  menuMobile.classList.add('menu-mobile')
+  const titik = document.createElement('span')
+  titik.classList.add('titik-tiga')
+  const icontitik = document.createElement('i')
+  icontitik.classList.add('bx','bx-dots-vertical-rounded')
+  const opsi = document.createElement('div')
+  opsi.classList.add('opsi-menu')
+  const opsiEdit = document.createElement('span')
+  opsiEdit.classList.add('opsi','edit')
+  const opsiHapus = document.createElement('span')
+  opsiHapus.classList.add('opsi','hapus')
+  titik.appendChild(icontitik)
+  opsi.appendChild(opsiEdit)
+  opsi.appendChild(opsiHapus)
+  menuMobile.appendChild(titik)
+  menuMobile.appendChild(opsi)
+
   // untuk jam
   const jam = document.createElement("div");
   jam.classList.add("jam");
@@ -38,6 +65,10 @@ const bikinList = (inputList, inputJam) => {
   list.appendChild(item);
   list.appendChild(jam);
   main.appendChild(list);
+  icon.appendChild(edit);
+  icon.appendChild(hapus);
+  item.appendChild(icon);
+  item.appendChild(menuMobile)
 };
 
 const btnSave = document
@@ -52,41 +83,51 @@ const btnSave = document
     const form = document.querySelector("form").reset();
   });
 
-// bikin garis tengah pada text
-//  const AllcheckBox = document.querySelectorAll()
-//  AllcheckBox.forEach((chechbox)=>{
-//   console.log('done 1');
-
-//   chechbox.addEventListener('change',()=>{
-//     console.log('done 2');
-//     const item = chechbox.closest('.item')
-//     const judul = item.querySelector('.judul')
-//     console.log('done 3');
-
-//     if(chechbox.cheched){
-//       judul.style.textDecoration = 'line-trough'
-//       console.log('done 4');
-//     } else{
-//       judul.style.textDecoration = 'none'
-
-//     }
-//   })
-//  })
-
 const main = document.querySelector("main");
 main.addEventListener("click", (e) => {
-  const checkbox = e.target;
-  if (checkbox.matches('.checkbox-wrapper input[type = "checkbox"]')) {
-    console.log('done 1');
-    const item = checkbox.closest(".item");
+  const elemen = e.target;
+  // coret list yg udah done
+  if (elemen.matches('.checkbox-wrapper input[type = "checkbox"]')) {
+    const item = elemen.closest(".item");
     const judul = item.querySelector(".judul");
-    
-    if (checkbox.checked) {
-      judul.classList.toggle('done')
-      console.log('done 2');
-    } else{
-      judul.classList.toggle('done')
 
+    if (elemen.checked) {
+      judul.classList.toggle("done");
+    } else {
+      judul.classList.toggle("done");
     }
   }
+  // jika klik icon edit
+  if (elemen.closest(".bx-pencil")) {
+    const item = elemen.closest(".item");
+    const judul = item.querySelector(".judul");
+    const edit = item.querySelector(".bx-pencil");
+    const inputBaru = document.createElement("input");
+    inputBaru.classList.add("judul");
+    inputBaru.value = judul.textContent;
+    inputBaru.type = "text";
+    inputBaru.id = "inputBaru";
+    item.replaceChild(inputBaru, judul);
+
+    edit.classList.replace("bx-pencil", "bx-check");
+  } else if (elemen.closest(".bx-check")) {
+    const item = elemen.closest(".item");
+    const inputBaru = item.querySelector("input.judul");
+
+    const judulBaru = document.createElement("span");
+    judulBaru.classList.add("judul");
+    judulBaru.textContent = inputBaru.value;
+
+    item.replaceChild(judulBaru, inputBaru);
+    elemen.classList.replace("bx-check", "bx-pencil");
+  } else if (elemen.closest(".bx-backspace")) {
+    const list = elemen.closest(".list");
+    list.remove();
+  } else if (elemen.closest(".bx-dots-vertical-rounded")) {
+    const opsi = document.querySelector(".titik-tiga");
+    const menu = opsi.nextElementSibling;
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
 });
+
+// DI BAGIAN ICON TITIK TIGA MAASIH EROR YAAA....

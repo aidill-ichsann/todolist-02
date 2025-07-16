@@ -104,9 +104,63 @@ main {
   font-size: 18px;
   font-weight: 600;
 }
-.judul.done{
+.judul {
+  flex-grow: 1;
+}
+.icon {
+  margin-left: auto;
+  display: flex;
+  visibility: hidden;
+  width: max-content;
+  gap: 30px;
+  font-size: 24px;
+  color: #4d4945;
+}
+.icon i {
+  cursor: pointer;
+}
+.item:hover .icon {
+  visibility: visible;
+}
+.item input {
+  font-size: 16px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+  margin: 0;
+}
+
+.menu-mobile {
+  position: relative;
+  display: none;
+  margin-left: 5px;
+}
+.menu-mobile span.titik-tiga i{
+  font-size: 20px;
+  justify-content: center;
+  font-weight: 700;
+}
+.opsi-menu {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background: #f9f9f9;
+  padding: 5px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  z-index: 10;
+}
+.opsi-menu .opsi {
+  display: block;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.judul.done {
   text-decoration: line-through;
-  text-decoration-thickness:2px ;
+  text-decoration-thickness: 2px;
 }
 .jam {
   border-radius: 10px;
@@ -187,8 +241,14 @@ input {
   .jam {
     width: 20%;
   }
-  .form{
+  .form {
     width: 90%;
     top: 300px;
+  }
+  .icon {
+    display: none;
+  }
+  .menu-mobile {
+    display: block;
   }
 }
