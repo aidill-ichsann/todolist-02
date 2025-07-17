@@ -40,11 +40,11 @@ function updateJam() {
     "November",
     "Desember",
   ];
-  let hariIni = namaHari[hariIndex]
-  let bulanIni = namaBulan[bulanIndex]
+  let hariIni = namaHari[hariIndex];
+  let bulanIni = namaBulan[bulanIndex];
 
-  const date = document.querySelector('.date')
-  date.textContent = `${hariIni} ${tanggal} ${bulanIni} ${tahun}`
+  const date = document.querySelector(".date");
+  date.textContent = `${hariIni} ${tanggal} ${bulanIni} ${tahun}`;
 
   time.textContent = `${hh}:${mm}`;
 }
@@ -89,8 +89,10 @@ const bikinList = (inputList, inputJam) => {
   opsi.classList.add("opsi-menu");
   const opsiEdit = document.createElement("span");
   opsiEdit.classList.add("opsi", "edit");
+  opsiEdit.textContent = "edit";
   const opsiHapus = document.createElement("span");
   opsiHapus.classList.add("opsi", "hapus");
+  opsiHapus.textContent = "hapus";
   titik.appendChild(icontitik);
   opsi.appendChild(opsiEdit);
   opsi.appendChild(opsiHapus);
@@ -144,37 +146,63 @@ main.addEventListener("click", (e) => {
       judul.classList.toggle("done");
     }
   }
-  // jika klik icon edit
-  if (elemen.closest(".bx-pencil")) {
-    const item = elemen.closest(".item");
-    const judul = item.querySelector(".judul");
-    const edit = item.querySelector(".bx-pencil");
+  function buatInput(judul, item) {
     const inputBaru = document.createElement("input");
     inputBaru.classList.add("judul");
     inputBaru.value = judul.textContent;
     inputBaru.type = "text";
     inputBaru.id = "inputBaru";
     item.replaceChild(inputBaru, judul);
+  }
+  function bikinJudul(inputBaru, item) {
+    const judulBaru = document.createElement("span");
+    judulBaru.classList.add("judul");
+    judulBaru.textContent = inputBaru.value;
+    item.replaceChild(judulBaru, inputBaru);
+  }
+
+  // jika klik icon edit
+  if (elemen.closest(".bx-pencil")) {
+    const item = elemen.closest(".item");
+    const judul = item.querySelector(".judul");
+    const edit = item.querySelector(".bx-pencil");
+    buatInput(judul, item);
 
     edit.classList.replace("bx-pencil", "bx-check");
   } else if (elemen.closest(".bx-check")) {
     const item = elemen.closest(".item");
     const inputBaru = item.querySelector("input.judul");
 
-    const judulBaru = document.createElement("span");
-    judulBaru.classList.add("judul");
-    judulBaru.textContent = inputBaru.value;
+    bikinJudul(inputBaru, item);
 
-    item.replaceChild(judulBaru, inputBaru);
     elemen.classList.replace("bx-check", "bx-pencil");
   } else if (elemen.closest(".bx-backspace")) {
     const list = elemen.closest(".list");
     list.remove();
-  } else if (elemen.closest(".bx-dots-vertical-rounded")) {
-    const opsi = document.querySelector(".titik-tiga");
-    const menu = opsi.nextElementSibling;
+  } else if (elemen.closest('.bx-dots-vertical-rounded')) {
+    const item = elemen.closest('.item')
+    const menu = item.querySelector('.opsi-menu')
     menu.style.display = menu.style.display === "block" ? "none" : "block";
-  }
+
+    const edit = item.querySelector(".edit");
+    edit.addEventListener('click',()=>{
+      if(edit.textContent == 'edit'){
+        const judul = item.querySelector('.judul')
+        buatInput(judul , item);
+        edit.textContent = 'simpan'
+      } else if(edit.textContent == 'simpan'){
+        const item = elemen.closest('.item')
+        const inputBaru = item.querySelector('input.judul')
+        bikinJudul(inputBaru , item)
+        edit.textContent = 'edit'
+      }
+    })
+    // hapus di mobile
+    const hapus = item.querySelector('.hapus')
+    hapus.addEventListener('click',()=>{
+    const list = elemen.closest(".list");
+    list.remove();
+    })
+    }
 });
 
-// DI BAGIAN ICON TITIK TIGA MAASIH EROR YAAA....
