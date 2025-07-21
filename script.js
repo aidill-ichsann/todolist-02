@@ -52,14 +52,14 @@ setInterval(updateJam, 1000);
 updateJam();
 
 // function bikin list
-const bikinList = (inputList, inputJam) => {
+const bikinList = (inputList, inputJam, index) => {
   // untuk nama list
   const main = document.querySelector("main");
   const list = document.createElement("div");
   list.classList.add("list");
-  list, (id = "list");
   const item = document.createElement("div");
   item.classList.add("item");
+  item.dataset.index = index;
   const label = document.createElement("label");
   label.classList.add("checkbox-wrapper");
   const inputcheck = document.createElement("input");
@@ -134,11 +134,12 @@ const btnSave = document
     if (!validasiJam(jam)) {
       alert("data waktu yg anda masukkan salah");
     } else {
-      bikinList(nama, jam);
       const formInput = document.querySelector(".form");
       formInput.classList.toggle("show");
       const form = document.querySelector("form").reset();
       simpanData(nama, jam);
+      let data = JSON.parse(localStorage.getItem("list"));
+      bikinList(nama, jam, data.length - 1);
 
       // simpan ke lokal storage
       function simpanData(nama, jam) {
@@ -151,9 +152,10 @@ const btnSave = document
   });
 // jika di refresh list ga hilang
 document.addEventListener("DOMContentLoaded", function () {
-  let data = JSON.parse(localStorage.getItem('list') || [])
-  data.forEach(item => {
-    bikinList(item.nama , item.jam)
+  let dataString = localStorage.getItem("list");
+  let data = dataString ? JSON.parse(dataString) : [];
+  data.forEach((item, index) => {
+    bikinList(item.nama, item.jam, index);
   });
 });
 
@@ -197,12 +199,22 @@ main.addEventListener("click", (e) => {
   } else if (elemen.closest(".bx-check")) {
     const item = elemen.closest(".item");
     const inputBaru = item.querySelector("input.judul");
-
     bikinJudul(inputBaru, item);
+
+    const index = item.dataset.index;
+    let data = JSON.parse(localStorage.getItem("list"));
+    let jamLama = data[index].jam;
+    data[index].nama = inputBaru.value;
+    localStorage.setItem("list", JSON.stringify(data));
 
     elemen.classList.replace("bx-check", "bx-pencil");
   } else if (elemen.closest(".bx-backspace")) {
     const list = elemen.closest(".list");
+    const item = elemen.closest(".item");
+    let index = item.dataset.index;
+    let data = JSON.parse(localStorage.getItem("list"));
+    data.splice(index, 1);
+    localStorage.setItem("list", JSON.stringify(data));
     list.remove();
   } else if (elemen.closest(".bx-dots-vertical-rounded")) {
     const item = elemen.closest(".item");
@@ -219,6 +231,11 @@ main.addEventListener("click", (e) => {
         const item = elemen.closest(".item");
         const inputBaru = item.querySelector("input.judul");
         bikinJudul(inputBaru, item);
+        const index = item.dataset.index;
+        let data = JSON.parse(localStorage.getItem("list"));
+        let jamLama = data[index].jam;
+        data[index].nama = inputBaru.value;
+        localStorage.setItem("list", JSON.stringify(data));
         edit.textContent = "edit";
       }
     });
@@ -226,6 +243,11 @@ main.addEventListener("click", (e) => {
     const hapus = item.querySelector(".hapus");
     hapus.addEventListener("click", () => {
       const list = elemen.closest(".list");
+      const item = elemen.closest(".item");
+      let index = item.dataset.index;``
+      let data = JSON.parse(localStorage.getItem("list"));
+      data.splice(index, 1);
+      localStorage.setItem("list", JSON.stringify(data));
       list.remove();
     });
   }
