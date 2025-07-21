@@ -5,5 +5,6 @@ beberapa fitur sederhana yang saya bikin disini sebagai berikut :
 2.fitur tambah list,hapus dan edit
 3.validasi untuk inputan jam
 4.responsif
+5.update local storage
 
 SEMANGAT UNTUK SAYA
