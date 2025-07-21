@@ -57,6 +57,7 @@ const bikinList = (inputList, inputJam) => {
   const main = document.querySelector("main");
   const list = document.createElement("div");
   list.classList.add("list");
+  list, (id = "list");
   const item = document.createElement("div");
   item.classList.add("item");
   const label = document.createElement("label");
@@ -123,14 +124,38 @@ const bikinList = (inputList, inputJam) => {
 const btnSave = document
   .querySelector(".btn-save")
   .addEventListener("click", () => {
-    const inputList = document.querySelector("#inputNama").value;
-    const inputJam = document.querySelector("#inputjam").value;
-    console.log(inputList, inputJam);
-    bikinList(inputList, inputJam);
-    const formInput = document.querySelector(".form");
-    formInput.classList.toggle("show");
-    const form = document.querySelector("form").reset();
+    const nama = document.querySelector("#inputNama").value;
+    const jam = document.querySelector("#inputjam").value;
+    // validasi inputan jam
+    function validasiJam(jam) {
+      const regex = /^([01]\d|2[0-3])[:.]([0-5]\d)$/;
+      return regex.test(jam);
+    }
+    if (!validasiJam(jam)) {
+      alert("data waktu yg anda masukkan salah");
+    } else {
+      bikinList(nama, jam);
+      const formInput = document.querySelector(".form");
+      formInput.classList.toggle("show");
+      const form = document.querySelector("form").reset();
+      simpanData(nama, jam);
+
+      // simpan ke lokal storage
+      function simpanData(nama, jam) {
+        let dataString = localStorage.getItem("list"); // ambil dari storage
+        let data = dataString ? JSON.parse(dataString) : []; // parse atau bikin array kosong
+        data.push({ nama, jam });
+        localStorage.setItem("list", JSON.stringify(data));
+      }
+    }
   });
+// jika di refresh list ga hilang
+document.addEventListener("DOMContentLoaded", function () {
+  let data = JSON.parse(localStorage.getItem('list') || [])
+  data.forEach(item => {
+    bikinList(item.nama , item.jam)
+  });
+});
 
 const main = document.querySelector("main");
 main.addEventListener("click", (e) => {
@@ -179,30 +204,29 @@ main.addEventListener("click", (e) => {
   } else if (elemen.closest(".bx-backspace")) {
     const list = elemen.closest(".list");
     list.remove();
-  } else if (elemen.closest('.bx-dots-vertical-rounded')) {
-    const item = elemen.closest('.item')
-    const menu = item.querySelector('.opsi-menu')
+  } else if (elemen.closest(".bx-dots-vertical-rounded")) {
+    const item = elemen.closest(".item");
+    const menu = item.querySelector(".opsi-menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 
     const edit = item.querySelector(".edit");
-    edit.addEventListener('click',()=>{
-      if(edit.textContent == 'edit'){
-        const judul = item.querySelector('.judul')
-        buatInput(judul , item);
-        edit.textContent = 'simpan'
-      } else if(edit.textContent == 'simpan'){
-        const item = elemen.closest('.item')
-        const inputBaru = item.querySelector('input.judul')
-        bikinJudul(inputBaru , item)
-        edit.textContent = 'edit'
+    edit.addEventListener("click", () => {
+      if (edit.textContent == "edit") {
+        const judul = item.querySelector(".judul");
+        buatInput(judul, item);
+        edit.textContent = "simpan";
+      } else if (edit.textContent == "simpan") {
+        const item = elemen.closest(".item");
+        const inputBaru = item.querySelector("input.judul");
+        bikinJudul(inputBaru, item);
+        edit.textContent = "edit";
       }
-    })
+    });
     // hapus di mobile
-    const hapus = item.querySelector('.hapus')
-    hapus.addEventListener('click',()=>{
-    const list = elemen.closest(".list");
-    list.remove();
-    })
-    }
+    const hapus = item.querySelector(".hapus");
+    hapus.addEventListener("click", () => {
+      const list = elemen.closest(".list");
+      list.remove();
+    });
+  }
 });
-
